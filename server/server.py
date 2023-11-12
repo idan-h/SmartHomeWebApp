@@ -37,6 +37,8 @@ def execute_task():
     if not task_name:
         return jsonify({'error': 'Task name not provided'}), 400
 
+    task_name = fix_heb_encoding(task_name, True)
+
     hb.ExecuteTask(task_name)
     return jsonify({'message': 'Task executed successfully'})
 
@@ -74,6 +76,7 @@ def get_property():
 @app.route('/get-tasks', methods=['GET'])
 def get_tasks():
     res = hb.GetTaskList(";")
+
     res = fix_heb_encoding(res)
 
     return jsonify({'values': res.split(";")})
@@ -82,6 +85,7 @@ def get_tasks():
 @app.route('/get-devices', methods=['GET'])
 def get_devices():
     res = hb.GetDeviceList(";")
+
     res = fix_heb_encoding(res)
 
     return jsonify({'values': res.split(";")})
@@ -91,6 +95,7 @@ def get_devices():
 def get_device_properties():
     device = request.args.get('device')
     res = hb.GetPropertyListForDevice(device, ";")
+    
     res = fix_heb_encoding(res)
 
     return jsonify({'values': res.split(";")})
