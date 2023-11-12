@@ -1,13 +1,28 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import win32com.client
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__, static_folder='../dist', static_url_path='/')
 CORS(app)
 
+logging.basicConfig(level=logging.INFO)
+handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
+handler.setLevel(logging.INFO)
+app.logger.addHandler(handler)
+
 # Create the HouseBot external control object
 hb = win32com.client.Dispatch("HBControlMod.HBControl")
 hb.Connect("5010", "127.0.0.1", "123")
+
+
+def fix_heb_encoding(encoded_str):
+    try:
+        encoded_bytes = encoded_str.encode('latin-1')
+        return encoded_bytes.decode('windows-1255')
+    except (Exception,):
+        return encoded_str
 
 
 @app.route('/execute-task', methods=['POST'])
@@ -28,17 +43,21 @@ def set_property():
     property = data.get('property')
     value = data.get('value')
 
+    app.logger.info(f"Setting property: {property} on device: {device} to value: {value}")
     hb.SetPropertyValue(device, property, value)
+
     return jsonify({'message': 'Property changed successfully'})
 
 
 @app.route('/get-property', methods=['GET'])
 def get_property():
-	device = request.args.get('device')
-	property = request.args.get('property')
+    device = request.args.get('device')
+    property = request.args.get('property')
 
-	value = hb.GetPropertyValue(device, property)
-	return jsonify({'value': value})
+    app.logger.info(f"Setting property: {property} on device: {device} to value: {value}")
+    value = hb.GetPropertyValue(device, property)
+    
+    return jsonify({'value': value})
 
 
 @app.route('/get-tasks', methods=['GET'])
@@ -55,9 +74,10 @@ def get_devices():
 
 @app.route('/get-device-properties', methods=['GET'])
 def get_device_properties():
-	device = request.args.get('device')
-	res = hb.GetPropertyListForDevice(device, ";")
-	return jsonify({'values': res.split(";")})
+    device = request.args.get('device')
+    res = hb.GetPropertyListForDevice(device, ";")
+    res = fix_heb_encoding(res)
+    return jsonify({'values': res.split(";")})
 
 
 @app.route('/')
