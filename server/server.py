@@ -17,10 +17,15 @@ hb = win32com.client.Dispatch("HBControlMod.HBControl")
 hb.Connect("5010", "127.0.0.1", "123")
 
 
-def fix_heb_encoding(encoded_str):
+def fix_heb_encoding(encoded_str, reverse=False):
+    encodings = ['latin-1', 'windows-1255']
+
+    if reverse:
+        encodings.reverse()
+
     try:
-        encoded_bytes = encoded_str.encode('latin-1')
-        return encoded_bytes.decode('windows-1255')
+        encoded_bytes = encoded_str.encode(encodings[0])
+        return encoded_bytes.decode(encodings[1])
     except (Exception,):
         return encoded_str
 
@@ -43,6 +48,9 @@ def set_property():
     property = data.get('property')
     value = data.get('value')
 
+    device = fix_heb_encoding(device, True)
+    property = fix_heb_encoding(property, True)
+
     app.logger.info(f"Setting property: {property} on device: {device} to value: {value}")
     hb.SetPropertyValue(device, property, value)
 
@@ -54,6 +62,9 @@ def get_property():
     device = request.args.get('device')
     property = request.args.get('property')
 
+    device = fix_heb_encoding(device, True)
+    property = fix_heb_encoding(property, True)
+
     value = hb.GetPropertyValue(device, property)
     app.logger.info(f"Retrived property: {property} on device: {device} = {value}")
 
@@ -63,10 +74,7 @@ def get_property():
 @app.route('/get-tasks', methods=['GET'])
 def get_tasks():
     res = hb.GetTaskList(";")
-
-    app.logger.info(f"Retrived tasks before fix: {res}")
     res = fix_heb_encoding(res)
-    app.logger.info(f"Retrived tasks after fix: {res}")
 
     return jsonify({'values': res.split(";")})
 
@@ -74,10 +82,7 @@ def get_tasks():
 @app.route('/get-devices', methods=['GET'])
 def get_devices():
     res = hb.GetDeviceList(";")
-
-    app.logger.info(f"Retrived devices before fix: {res}")
     res = fix_heb_encoding(res)
-    app.logger.info(f"Retrived devices after fix: {res}")
 
     return jsonify({'values': res.split(";")})
 
@@ -86,10 +91,7 @@ def get_devices():
 def get_device_properties():
     device = request.args.get('device')
     res = hb.GetPropertyListForDevice(device, ";")
-
-    app.logger.info(f"Retrived device properties before fix: {res}")
     res = fix_heb_encoding(res)
-    app.logger.info(f"Retrived device properties after fix: {res}")
 
     return jsonify({'values': res.split(";")})
 
