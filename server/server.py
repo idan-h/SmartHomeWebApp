@@ -53,7 +53,6 @@ def set_property():
     device = fix_heb_encoding(device, True)
     property = fix_heb_encoding(property, True)
 
-    app.logger.info(f"Setting property: {property} on device: {device} to value: {value}")
     hb.SetPropertyValue(device, property, value)
 
     return jsonify({'message': 'Property changed successfully'})
@@ -68,7 +67,6 @@ def get_property():
     property = fix_heb_encoding(property, True)
 
     value = hb.GetPropertyValue(device, property)
-    app.logger.info(f"Retrived property: {property} on device: {device} = {value}")
 
     return jsonify({'value': value})
 
@@ -95,7 +93,7 @@ def get_devices():
 def get_device_properties():
     device = request.args.get('device')
     res = hb.GetPropertyListForDevice(device, ";")
-    
+
     res = fix_heb_encoding(res)
 
     return jsonify({'values': res.split(";")})
