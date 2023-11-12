@@ -63,22 +63,31 @@ def get_property():
 @app.route('/get-tasks', methods=['GET'])
 def get_tasks():
     res = hb.GetTaskList(";")
+
+    app.logger.info(f"Retrived tasks before fix: {res}")
+    res = fix_heb_encoding(res)
+    app.logger.info(f"Retrived tasks after fix: {res}")
+
     return jsonify({'values': res.split(";")})
 
 
 @app.route('/get-devices', methods=['GET'])
 def get_devices():
-	res = hb.GetDeviceList(";")
-	return jsonify({'values': res.split(";")})
+    res = hb.GetDeviceList(";")
+
+    app.logger.info(f"Retrived devices before fix: {res}")
+    res = fix_heb_encoding(res)
+    app.logger.info(f"Retrived devices after fix: {res}")
+
+    return jsonify({'values': res.split(";")})
 
 
 @app.route('/get-device-properties', methods=['GET'])
 def get_device_properties():
     device = request.args.get('device')
-
     res = hb.GetPropertyListForDevice(device, ";")
+
     app.logger.info(f"Retrived device properties before fix: {res}")
-    
     res = fix_heb_encoding(res)
     app.logger.info(f"Retrived device properties after fix: {res}")
 
