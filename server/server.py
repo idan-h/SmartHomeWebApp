@@ -54,9 +54,9 @@ def get_property():
     device = request.args.get('device')
     property = request.args.get('property')
 
-    app.logger.info(f"Setting property: {property} on device: {device} to value: {value}")
+    app.logger.info(f"Getting property: {property} on device: {device}")
     value = hb.GetPropertyValue(device, property)
-    
+
     return jsonify({'value': value})
 
 
