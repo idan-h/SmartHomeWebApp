@@ -75,8 +75,13 @@ def get_devices():
 @app.route('/get-device-properties', methods=['GET'])
 def get_device_properties():
     device = request.args.get('device')
+
     res = hb.GetPropertyListForDevice(device, ";")
+    app.logger.info(f"Retrived device properties before fix: {res}")
+    
     res = fix_heb_encoding(res)
+    app.logger.info(f"Retrived device properties after fix: {res}")
+
     return jsonify({'values': res.split(";")})
 
 
