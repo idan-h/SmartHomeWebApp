@@ -1,21 +1,22 @@
 @echo off
 SETLOCAL
 
-REM Assuming NSSM is in the system PATH
-REM Replace YourServiceName with your desired service name
+REM Set the path to your NSSM executable and the service name
+SET NSSM_PATH=.\nssm-2.24\win32\nssm.exe
+SET SERVICE_NAME=cHBService
 
 REM Install the service
-nssm install cHBServer "%CD%\start_server.bat"
+"%NSSM_PATH%" install %SERVICE_NAME% "%CD%\start_server.bat"
 
 REM Set the directory of the Flask application as the working directory of the service
-nssm set cHBServer AppDirectory "%CD%"
+"%NSSM_PATH%" set %SERVICE_NAME% AppDirectory "%CD%"
 
 REM Optional: Configure stdout and stderr logs
-nssm set cHBServer AppStdout "%CD%\stdout.log"
-nssm set cHBServer AppStderr "%CD%\stderr.log"
+"%NSSM_PATH%" set %SERVICE_NAME% AppStdout "%CD%\stdout.log"
+"%NSSM_PATH%" set %SERVICE_NAME% AppStderr "%CD%\stderr.log"
 
 REM Start the service
-nssm start cHBServer
+"%NSSM_PATH%" start %SERVICE_NAME%
 
-echo Flask service installed and started.
+echo Flask service %SERVICE_NAME% installed and started.
 ENDLOCAL
