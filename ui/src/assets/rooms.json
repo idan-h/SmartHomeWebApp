@@ -1,0 +1,130 @@
+{
+    "idan": {
+        "title": "עידן",
+        "image": "/assets/animal1.png",
+        "controls": [
+            {
+                "title": "אורות",
+                "values": [
+                    {
+                        "title": "ראשי",
+                        "type": "switch",
+                        "id": "LT_08_5_חדר עידן"
+                    },
+                    {
+                        "title": "מנורת לילה",
+                        "type": "switch",
+                        "id": "LT_13_4_חדר עידן קיר"
+                    },
+                    {
+                        "title": "אמבטיה",
+                        "type": "switch",
+                        "id": "LT_12_6_אמבט ילדים"
+                    }
+                ]
+            },
+            {
+                "title": "תריסים",
+                "values": [
+                    {
+                        "title": "חלון",
+                        "type": "shutter",
+                        "id": "TR_17_4_תריס עידן"
+                    },
+                    {
+                        "title": "דלת",
+                        "type": "shutter",
+                        "id": "TR_14_4_תריס דלת עידן"
+                    }
+                ]
+            }
+        ]
+    },
+    "maya": {
+        "title": "מיה",
+        "image": "/assets/animal2.png",
+        "controls": [
+            {
+                "title": "אורות",
+                "values": [
+                    {
+                        "title": "ראשי",
+                        "type": "switch",
+                        "id": "LT_11_8_חדר מיה ראשי"
+                    },
+                    {
+                        "title": "מנורת לילה",
+                        "type": "switch",
+                        "id": "LT_13_7_חדר מיה קיר"
+                    },
+                    {
+                        "title": "אמבטיה",
+                        "type": "switch",
+                        "id": "LT_12_4_אמבט מיה"
+                    }
+                ]
+            },
+            {
+                "title": "תריסים",
+                "values": [
+                    {
+                        "title": "חלון",
+                        "type": "shutter",
+                        "id": "TR_17_1_תריס מיה"
+                    },
+                    {
+                        "title": "דלת",
+                        "type": "shutter",
+                        "id": "TR_15_4_תריס דלת מיה"
+                    }
+                ]
+            }
+        ]
+    },
+    "roi": {
+        "title": "רועי",
+        "image": "/assets/animal3.png",
+        "controls": [
+            {
+                "title": "אורות",
+                "values": [
+                    {
+                        "title": "ראשי",
+                        "type": "switch",
+                        "id": "LT_13_1_חדר רועי"
+                    },
+                    {
+                        "title": "מנורת לילה",
+                        "type": "switch",
+                        "id": "LT_13_2_חדר רועי קיר"
+                    },
+                    {
+                        "title": "אמבטיה",
+                        "type": "switch",
+                        "id": "LT_12_6_אמבט ילדים"
+                    }
+                ]
+            },
+            {
+                "title": "תריסים",
+                "values": [
+                    {
+                        "title": "חלון",
+                        "type": "shutter",
+                        "id": "TR_10_1_תריס רועי"
+                    }
+                ]
+            }
+        ]
+    },
+    "parents": {
+        "title": "הורים",
+        "image": "/assets/animal4.png",
+        "controls": []
+    },
+    "other": {
+        "title": "אחר",
+        "image": "/assets/animal9.png",
+        "controls": []
+    }
+}
